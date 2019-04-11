@@ -1,0 +1,4 @@
+/home/rafael/ptr/CMakeFiles/edit_cache.dir
+/home/rafael/ptr/CMakeFiles/rebuild_cache.dir
+/home/rafael/ptr/CMakeFiles/webcan.dir
+/home/rafael/ptr/CMakeFiles/DisplayImage.dir
