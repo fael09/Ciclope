@@ -1,0 +1,3 @@
+/home/rafael/ptr/ler_webcan/CMakeFiles/edit_cache.dir
+/home/rafael/ptr/ler_webcan/CMakeFiles/rebuild_cache.dir
+/home/rafael/ptr/ler_webcan/CMakeFiles/webcan.dir
