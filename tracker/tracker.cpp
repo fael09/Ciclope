@@ -119,15 +119,28 @@ int* ler_posicao_objeto(Mat src, int ant_x, int ant_y){
 
     v_o[0] = ant_x;
     v_o[1] = ant_y;
-
+    Mat dilation_dst;
+    int dilation_elem = 15;
+    int dilation_size = 15;
     Mat canny, hsv, black;
     vector<vector<Point> > contours;
     vector<Vec4i> hierarchy;
+    cvtColor(src, hsv, COLOR_BGR2HSV);
+   inRange(hsv, Scalar(0,155, 100), Scalar(10,255 , 255), black);
 
-    //cvtColor(src, hsv, COLOR_BGR2HLS);
-   inRange(src, Scalar(0,0, 0), Scalar(255, 95, 255), black);
+    // ====================================================
+    //dilatação
 
-    Canny(black, canny, 50, 150, 3);
+  Mat element = getStructuringElement( MORPH_RECT,
+                                       Size( 2*dilation_size + 1, 2*dilation_size+1 ),
+                                       Point( dilation_size, dilation_size ) );
+  /// Apply the dilation operation
+  dilate(black, dilation_dst, element );
+
+  ///////////////////////////////////////////////////////
+
+ 
+    Canny(dilation_dst, canny, 50, 150, 3);
 
     findContours(canny, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0));
 
@@ -154,7 +167,7 @@ int* ler_posicao_objeto(Mat src, int ant_x, int ant_y){
     {
      double a = contourArea(contours[i], false);
      //cout << a << endl;
-      if (a > 500)
+      if (a > 3000)
       {
         Scalar color2 = Scalar(255, 0, 0); // B G R values
         Scalar color1 = Scalar(0, 255, 0); // B G R values
@@ -229,25 +242,25 @@ int* calcula_pulso_pwm(int o_x, int o_y, int l_x, int l_y, int pwm_x, int pwm_y)
 
       
       if(erro[0] >= 8){
-         pwm_atual[0] = pwm_x - 1;
+         pwm_atual[0] = pwm_x - 2;
          if(pwm_atual[0] < 1300){
            pwm_atual[0] = 1300;
          }
       }
       if(erro[0] < -8){
-         pwm_atual[0] = pwm_x + 1;
+         pwm_atual[0] = pwm_x + 2;
          if(pwm_atual[0] >  1700){
            pwm_atual[0] = 1700;
          }
       }
       if(erro[1] >= 8){
-         pwm_atual[1] = pwm_y - 1;
+         pwm_atual[1] = pwm_y - 2;
          if(pwm_atual[1] < 1300){
            pwm_atual[1] = 1300;
          }
       }
       if(erro[1] < -8 ){
-         pwm_atual[1] = pwm_y + 1;
+         pwm_atual[1] = pwm_y + 2;
          if(pwm_atual[1] > 1700){
            pwm_atual[1] = 1700;
          }
@@ -269,7 +282,7 @@ int main(){
   fd = fd1;
      setServos(2);
     // setup da webcam.
-    VideoCapture cap(1);
+    VideoCapture cap(0);
     //Verificação se a camera foi aberta. 
     if(!cap.isOpened()){
          cout << "Erro ao abrir a camera" << endl;
