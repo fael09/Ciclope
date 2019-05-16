@@ -1,0 +1,3 @@
+/home/rafael/ptr/Ciclope/shape/CMakeFiles/edit_cache.dir
+/home/rafael/ptr/Ciclope/shape/CMakeFiles/rebuild_cache.dir
+/home/rafael/ptr/Ciclope/shape/CMakeFiles/shape.dir

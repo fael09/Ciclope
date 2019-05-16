@@ -1,0 +1,3 @@
+/home/rafael/ptr/Ciclope/omini/CMakeFiles/edit_cache.dir
+/home/rafael/ptr/Ciclope/omini/CMakeFiles/rebuild_cache.dir
+/home/rafael/ptr/Ciclope/omini/CMakeFiles/omini.dir

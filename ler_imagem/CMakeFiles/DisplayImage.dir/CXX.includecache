@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/rafael/ptr/DisplayImage.cpp
+/home/rafael/ptr/Ciclope/ler_imagem/DisplayImage.cpp
 stdio.h
 -
 opencv2/opencv.hpp

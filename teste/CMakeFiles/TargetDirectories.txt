@@ -1,0 +1,3 @@
+/home/rafael/ptr/Ciclope/teste/CMakeFiles/rebuild_cache.dir
+/home/rafael/ptr/Ciclope/teste/CMakeFiles/edit_cache.dir
+/home/rafael/ptr/Ciclope/teste/CMakeFiles/teste.dir

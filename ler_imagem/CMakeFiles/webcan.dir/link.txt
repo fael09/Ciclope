@@ -1,1 +1,0 @@
-/usr/bin/c++      CMakeFiles/webcan.dir/webcan.cpp.o  -o webcan -rdynamic 

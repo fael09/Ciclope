@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project( contra )
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( contra contra.cpp )
+target_link_libraries( contra ${OpenCV_LIBS} )

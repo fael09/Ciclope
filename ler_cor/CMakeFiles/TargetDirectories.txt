@@ -1,0 +1,3 @@
+/home/rafael/ptr/Ciclope/ler_cor/CMakeFiles/edit_cache.dir
+/home/rafael/ptr/Ciclope/ler_cor/CMakeFiles/rebuild_cache.dir
+/home/rafael/ptr/Ciclope/ler_cor/CMakeFiles/ler_cor.dir

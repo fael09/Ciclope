@@ -1,0 +1,3 @@
+/home/rafael/ptr/Ciclope/ler_laser/CMakeFiles/rebuild_cache.dir
+/home/rafael/ptr/Ciclope/ler_laser/CMakeFiles/edit_cache.dir
+/home/rafael/ptr/Ciclope/ler_laser/CMakeFiles/ler_laser.dir

@@ -1,0 +1,3 @@
+/home/rafael/ptr/Ciclope/amarelo/CMakeFiles/edit_cache.dir
+/home/rafael/ptr/Ciclope/amarelo/CMakeFiles/rebuild_cache.dir
+/home/rafael/ptr/Ciclope/amarelo/CMakeFiles/amarelo.dir

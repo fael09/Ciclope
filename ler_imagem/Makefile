@@ -48,18 +48,18 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/rafael/ptr
+CMAKE_SOURCE_DIR = /home/rafael/ptr/Ciclope/ler_imagem
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/rafael/ptr
+CMAKE_BINARY_DIR = /home/rafael/ptr/Ciclope/ler_imagem
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/cmake-gui -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rafael/ptr/CMakeFiles /home/rafael/ptr/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rafael/ptr/Ciclope/ler_imagem/CMakeFiles /home/rafael/ptr/Ciclope/ler_imagem/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rafael/ptr/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rafael/ptr/Ciclope/ler_imagem/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -109,19 +109,6 @@ preinstall/fast:
 depend:
 	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
-
-#=============================================================================
-# Target rules for targets named webcan
-
-# Build rule for target.
-webcan: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 webcan
-.PHONY : webcan
-
-# fast build rule for target.
-webcan/fast:
-	$(MAKE) -f CMakeFiles/webcan.dir/build.make CMakeFiles/webcan.dir/build
-.PHONY : webcan/fast
 
 #=============================================================================
 # Target rules for targets named DisplayImage
@@ -163,33 +150,6 @@ DisplayImage.cpp.s:
 	$(MAKE) -f CMakeFiles/DisplayImage.dir/build.make CMakeFiles/DisplayImage.dir/DisplayImage.cpp.s
 .PHONY : DisplayImage.cpp.s
 
-webcan.o: webcan.cpp.o
-
-.PHONY : webcan.o
-
-# target to build an object file
-webcan.cpp.o:
-	$(MAKE) -f CMakeFiles/webcan.dir/build.make CMakeFiles/webcan.dir/webcan.cpp.o
-.PHONY : webcan.cpp.o
-
-webcan.i: webcan.cpp.i
-
-.PHONY : webcan.i
-
-# target to preprocess a source file
-webcan.cpp.i:
-	$(MAKE) -f CMakeFiles/webcan.dir/build.make CMakeFiles/webcan.dir/webcan.cpp.i
-.PHONY : webcan.cpp.i
-
-webcan.s: webcan.cpp.s
-
-.PHONY : webcan.s
-
-# target to generate assembly for a file
-webcan.cpp.s:
-	$(MAKE) -f CMakeFiles/webcan.dir/build.make CMakeFiles/webcan.dir/webcan.cpp.s
-.PHONY : webcan.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -198,14 +158,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... webcan"
 	@echo "... DisplayImage"
 	@echo "... DisplayImage.o"
 	@echo "... DisplayImage.i"
 	@echo "... DisplayImage.s"
-	@echo "... webcan.o"
-	@echo "... webcan.i"
-	@echo "... webcan.s"
 .PHONY : help
 
 
