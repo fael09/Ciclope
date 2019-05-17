@@ -179,7 +179,7 @@ int* ler_posicao_objeto(Mat src, int ant_x, int ant_y){
     }
     
     //cout << "oX = " << v_o[0] << "oY = "<< v_o[1] << endl;
-   // imshow("Contour", src);
+   imshow("Contour", src);
    return v_o;
 }
 
@@ -236,58 +236,37 @@ int* ler_posicao_laser(Mat src, int ant_lx, int ant_ly ){
         v_l[0] = (int)mc[i].x;
         v_l[1] = (int)mc[i].y;
     }
-    cout << " X = " << v_l[0] << " Y = "<< v_l[1] << endl;
-    imshow("laser", src);
+    //cout << " X = " << v_l[0] << " Y = "<< v_l[1] << endl;
+    //imshow("laser", src);
      return v_l;
 }
 
 //função que calcula erro e retorna largura de pulso
-int* calcula_pulso_pwm(int e_x, int e_y, int e_x_p, int e_y_p, int integral_y_p , int integral_x_p, int pwm_x, int pwm_y){
+int* calcula_pulso_pwm(int e_x, int e_y, int pwm_x, int pwm_y){
       
-      float kp = 0.001, ki = 0, kd = 0;
-      int* pwm_atual = new int[4];
+      float kp = 0.1;
+      int* pwm_atual = new int[2];
       pwm_atual[0] = pwm_x;
       pwm_atual[1] = pwm_y;
-      int integral_x;
-      int integral_y;
-      int derivada_x;
-      int derivada_y;
-      // Cálculo da integral 
-      integral_x = integral_x_p + e_x;
-      integral_y = integral_y_p + e_y;
-      // calculo da derivada
-      derivada_x = e_x - e_x_p;
-      derivada_y = e_y - e_y_p;
-      // PWM para x
-         if(e_x > 0){
-         pwm_atual[0] = pwm_x - 1;
-          if(pwm_atual[0] > 1600){
+
+         pwm_atual[0] = pwm_x -(int)(kp*e_x);
+         if(pwm_atual[0] > 1600){
            pwm_atual[0] = 1600;
-          }
          }
-         if(e_x < 0){
-           pwm_atual[0] = pwm_x + 1;
-         if(pwm_atual[0] < 1300){
+        if(pwm_atual[0] < 1300){
            pwm_atual[0] = 1300;
          }
-         }
+
       //PWM para y
-        if(e_y > 0){
-         pwm_atual[1] = pwm_y - 1;
+         pwm_atual[1] = pwm_y -(int)(kp*e_y);
          if(pwm_atual[1] > 1600){
            pwm_atual[1] = 1600;
          }
-        }
-        if(e_y < 0){
-         pwm_atual[1] = pwm_y + 1;
-         if(pwm_atual[1] < 1300){
+        if(pwm_atual[1] < 1300){
            pwm_atual[1] = 1300;
          }
-        }
-     cout << pwm_atual[0] << "|" << pwm_atual[1] << endl;
-      //cout << e_x << "|" << e_y << endl;
-      pwm_atual[2] = integral_x;
-      pwm_atual[3] = integral_y;
+         
+
       return pwm_atual;
 
 }
@@ -320,10 +299,7 @@ int main(){
   int pwm_y = 1400;
   int erro_x;
   int erro_y;
-  int erro_x_p = 0;
-  int erro_y_p = 0;
-  int integral_x_p;
-  int integral_y_p;
+  
   // Declaração dos ponteiros para as função que captura as posições do objeto, do laser, e largura do pwm. 
   int* v_laser;
   int* v_objeto;
@@ -350,15 +326,11 @@ int main(){
    erro_x = objeto_x - laser_x;  
    erro_y = objeto_y - laser_y; 
    // Função para calcular o erro e tranforma em largura de pulso
-   pwm = calcula_pulso_pwm(erro_x, erro_y, erro_x_p,erro_y_p, integral_x_p, integral_y_p, pwm_x, pwm_y);
+   pwm = calcula_pulso_pwm(erro_x, erro_y, pwm_x, pwm_y);
    // valores de de lagura de pulso para os servos motores 
-   erro_x_p = erro_x;
-   erro_y_p = erro_y;
-   //
    pwm_x = pwm[0];
    pwm_y = pwm[1];
-   integral_x_p = pwm[2];
-   integral_y_p = pwm[3];
+   
    // Função para acionar os dois servo motores
    acionar_servo(pwm_x, pwm_y);
 
