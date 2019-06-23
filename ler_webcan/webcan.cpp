@@ -32,7 +32,7 @@ int main()
 //--------------------Funções pardrão para ler dados da webcam-----------------------------
   
   // cria um objeto de captura de vídeo e usa a webcam do pc 
-  VideoCapture cap(1);
+  VideoCapture cap(0);
 
   // checa se a camera foi aberta corretamente
   if (!cap.isOpened())

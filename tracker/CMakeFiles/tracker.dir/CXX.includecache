@@ -27,6 +27,10 @@ stdlib.h
 -
 sstream
 -
+thread
+-
+mutex
+-
 opencv2/opencv.hpp
 /home/rafael/ptr/Ciclope/tracker/opencv2/opencv.hpp
 opencv2/core/core.hpp

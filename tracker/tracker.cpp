@@ -1,4 +1,4 @@
-
+// Set (CMAKE_CXX_FLAGS "-lwiringPi")
 #include <iostream>
 #include <stdio.h>   /* Standard input/output definitions */
 #include <string.h>  /* String function definitions */
@@ -9,12 +9,15 @@
 #include <string> 
 #include <stdlib.h>
 #include <sstream>
+#include <thread>
+#include <mutex>  
 #include "opencv2/opencv.hpp"
 #include "opencv2/core/core.hpp"
 #include "opencv2/highgui/highgui.hpp"
  
 using namespace cv; 
 using namespace std;
+std::mutex mtx;
 
 int fd;
 int servoMinPos = 800;
@@ -26,16 +29,14 @@ int servoMaxCh = 31;
 // Gabriel ===================================================>
 
 //Convert integer to string
-std::string int_to_string(int n)
-{
+std::string int_to_string(int n){
   std::ostringstream str1;
   str1 << n;
   std::string str = str1.str();
   return str1.str();
 }
 
-int verifyBounds(int ch, int pos)
-{
+int verifyBounds(int ch, int pos){
   if (ch > servoMaxCh or ch < servoMinCh)
   {
     std::cout << "Channel is not within its boundaries\n";
@@ -49,8 +50,8 @@ int verifyBounds(int ch, int pos)
   return 1;
 }
 
-int openPort(void)
-{
+
+int openPort(void){
   int fd; /* File descriptor for the port */
   struct termios options;
   int baud = B115200;
@@ -87,8 +88,7 @@ int openPort(void)
 }
 
 // Move the ch servo to postition pos
-void moveServo(int ch, int pos)
-{
+void moveServo(int ch, int pos){
   if(verifyBounds(ch, pos) == 1)
   {
     int n;
@@ -114,9 +114,10 @@ void setServos(int num) {
 
 //função para ler posição do objeto //
 
-int* ler_posicao_objeto(Mat src, int ant_x, int ant_y){
+int* ler_posicao_objeto(Mat src, int ant_x, int ant_y, int erro_x, int erro_y){
     int* v_o = new int[2];
-
+    char str1[20] = "ALVO TRAVADO!";
+    char str2[20] = "ALVO DESTRADO!";
     v_o[0] = ant_x;
     v_o[1] = ant_y;
     Mat dilation_dst;
@@ -166,10 +167,25 @@ int* ler_posicao_objeto(Mat src, int ant_x, int ant_y){
     {
      double a = contourArea(contours[i], false);
      //cout << a << endl;
+     Scalar color1;
       if (a > 3000)
       {
+        cout << erro_x << "||" <<erro_y << endl;
+        if ((erro_x < 20 & erro_x > -20)){
+           if ((erro_y < 20 & erro_y > -20)){
+             color1 = Scalar(0, 255, 0); // B G R values
+             putText(src, str1 , cvPoint(5,470), 
+             FONT_HERSHEY_SIMPLEX, 1, cvScalar(0,255,0), 1, CV_AA);
+           }else {color1 = Scalar(0, 0, 255);
+                  putText(src, str2 , cvPoint(5,470), 
+                  FONT_HERSHEY_SIMPLEX, 1, cvScalar(0,0,255), 1, CV_AA);
+                  }
+        }else {color1 = Scalar(0, 0, 255);
+                  putText(src, str2 , cvPoint(5,470), 
+                  FONT_HERSHEY_SIMPLEX, 1, cvScalar(0,0,255), 1, CV_AA);
+                  } // B G R values
         Scalar color2 = Scalar(255, 0, 0); // B G R values
-        Scalar color1 = Scalar(0, 255, 0); // B G R values
+       // Scalar color1 = Scalar(0, 255, 0); // B G R values
         drawContours(src, contours, i, color1, 2, 8, hierarchy, 0, Point());
         circle(src, mc[i], 5, color2, -1, 8, 0);
         v_o[0] =(int)mc[i].x;
@@ -250,20 +266,20 @@ int* calcula_pulso_pwm(int e_x, int e_y, int pwm_x, int pwm_y){
       pwm_atual[1] = pwm_y;
 
          pwm_atual[0] = pwm_x -(int)(kp*e_x);
-         if(pwm_atual[0] > 1600){
-           pwm_atual[0] = 1600;
+         if(pwm_atual[0] > 1700){
+           pwm_atual[0] = 1700;
          }
-        if(pwm_atual[0] < 1300){
-           pwm_atual[0] = 1300;
+        if(pwm_atual[0] < 1200){
+           pwm_atual[0] = 1200;
          }
 
       //PWM para y
          pwm_atual[1] = pwm_y -(int)(kp*e_y);
-         if(pwm_atual[1] > 1600){
-           pwm_atual[1] = 1600;
+         if(pwm_atual[1] > 1700){
+           pwm_atual[1] = 1700;
          }
-        if(pwm_atual[1] < 1300){
-           pwm_atual[1] = 1300;
+        if(pwm_atual[1] < 1200){
+           pwm_atual[1] = 1200;
          }
          
 
@@ -273,9 +289,9 @@ int* calcula_pulso_pwm(int e_x, int e_y, int pwm_x, int pwm_y){
 // Função que aciona os servos motores
 void acionar_servo(int pwm_x, int pwm_y){
   //cout << pwm_x << "*" << pwm_y << endl;
-  moveServo(0,pwm_x);
-  moveServo(1,pwm_y);
-   
+  moveServo(1,pwm_x);
+  moveServo(2,pwm_y);
+  
 }
 // função principal //
 int main(){
@@ -295,10 +311,10 @@ int main(){
   // Declaração das variáveis para receber a posição do laser e do objeto e o offset dos servo motores.    
   int laser_x, laser_y;
   int objeto_x = 200, objeto_y = 200;
-  int pwm_x = 1400;
-  int pwm_y = 1400;
-  int erro_x;
-  int erro_y;
+  int pwm_x = 1500;
+  int pwm_y = 1500;
+  int erro_x = 30;
+  int erro_y = 30;
   
   // Declaração dos ponteiros para as função que captura as posições do objeto, do laser, e largura do pwm. 
   int* v_laser;
@@ -308,13 +324,18 @@ int main(){
   while (1){
     // declaração da imagem de entrada src.
     Mat src;
+    // vou colocar um mutex aqui
+    mtx.lock();
     cap >> src;
    // verificação se a imagem tem conteudo.
    if (src.empty()){
     break;
    }
+   // fim do mutex 
+   mtx.unlock();
    //Funções para captura das posições, tanto do laser quanto do objeto.
-   v_objeto = ler_posicao_objeto(src, objeto_x, objeto_y);
+   // as duas 
+   v_objeto = ler_posicao_objeto(src, objeto_x, objeto_y, erro_x, erro_y);
    v_laser = ler_posicao_laser(src, laser_x, laser_y);
    //Coordenada do objeto
    objeto_x = v_objeto[0];

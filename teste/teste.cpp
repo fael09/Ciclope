@@ -56,7 +56,7 @@ int dilation_size = 5;
 int main(int argc, char* argv[])
 {
     //VideoCapture cap(argc > 1 ? argv[1] : 0);
-    VideoCapture cap(1);
+    VideoCapture cap(0);
     namedWindow(window_capture_name);
     namedWindow(window_detection_name);
     // Trackbars to set thresholds for HSV values
