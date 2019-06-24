@@ -32,7 +32,7 @@ int main()
 //--------------------Funções pardrão para ler dados da webcam-----------------------------
   
   // cria um objeto de captura de vídeo e usa a webcam do pc 
-  VideoCapture cap(0);
+  VideoCapture cap(1);
 
   // checa se a camera foi aberta corretamente
   if (!cap.isOpened())
@@ -47,6 +47,9 @@ int main()
 
   while (1)
   {
+    tic();
+   
+     toc();
     // usleep(1000000);
     Mat src;
       
@@ -112,8 +115,19 @@ int main()
     imshow("Contour", src);
     //precione ESC para sair
     char c = (char)waitKey(1);
-    if (c == 27)
-      break;
+    if (c == 32){
+      while (1){
+       char c = (char)waitKey(1);
+       if (c == 32){
+          break;
+       }
+       if (c == 27){
+           destroyAllWindows();
+          exit(0);
+       }
+      }
+    }
+      
   }
 //Fecha a janela
   destroyAllWindows();

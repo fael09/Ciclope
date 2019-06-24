@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
+Set (CMAKE_CXX_FLAGS "--std=c++11")
 project( DisplayImage )
 find_package( OpenCV REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )

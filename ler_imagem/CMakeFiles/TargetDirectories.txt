@@ -1,3 +1,3 @@
 /home/rafael/ptr/Ciclope/ler_imagem/CMakeFiles/edit_cache.dir
-/home/rafael/ptr/Ciclope/ler_imagem/CMakeFiles/rebuild_cache.dir
 /home/rafael/ptr/Ciclope/ler_imagem/CMakeFiles/DisplayImage.dir
+/home/rafael/ptr/Ciclope/ler_imagem/CMakeFiles/rebuild_cache.dir
